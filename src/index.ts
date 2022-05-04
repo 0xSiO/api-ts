@@ -4,15 +4,16 @@ import process from 'process';
 
 import app from './app';
 import db from './db';
+import log from './log';
 
 (async () => {
     if (cluster.isPrimary) {
-        console.info('primary online', { pid: process.pid });
+        log.info('primary online', { pid: process.pid });
 
         await db.initialize();
 
         cluster.on('exit', (worker, code, signal) => {
-            console.warn('worker died, restarting...', {
+            log.warn('worker died, restarting...', {
                 pid: worker.process.pid,
                 code,
                 signal,
@@ -24,7 +25,7 @@ import db from './db';
             cluster.fork();
         }
     } else {
-        console.info('worker online', { pid: process.pid });
+        log.info('worker online', { pid: process.pid });
         app.listen(3000);
     }
 })();
