@@ -1,4 +1,5 @@
-import { AsyncLocalStorage } from 'async_hooks';
+import { AsyncLocalStorage } from 'node:async_hooks';
+
 import { ILogObject, Logger } from 'tslog';
 
 class ContextLogger extends Logger {

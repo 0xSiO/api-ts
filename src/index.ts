@@ -1,6 +1,6 @@
-import cluster from 'cluster';
-import os from 'os';
-import process from 'process';
+import cluster from 'node:cluster';
+import os from 'node:os';
+import process from 'node:process';
 
 import app from './app';
 import db from './db';
