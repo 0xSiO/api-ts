@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
     "module": "CommonJS",
-    "target": "ES2021",
+    "target": "ES2022",
 
     "strict": true,
+    "exactOptionalPropertyTypes": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
 
     "outDir": "dist",
     "inlineSourceMap": true,
