@@ -14,10 +14,10 @@ router.get('/health', async ctx => {
 
         const duration = Date.now() - start;
         ctx.body = { status: 'up', duration, server_version: row.version };
-    } catch (error: any) {
+    } catch (error) {
         const duration = Date.now() - start;
         log.error('database health check failed', { error });
-        ctx.body = { status: 'down', duration, error: error.message };
+        ctx.body = { status: 'down', duration, error: String(error) };
     }
 });
 
