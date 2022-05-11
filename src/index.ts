@@ -10,6 +10,10 @@ import log from './log';
     if (cluster.isPrimary) {
         log.info('primary online', { pid: process.pid });
 
+        cluster.on('online', worker => {
+            log.info('worker online', { pid: worker.process.pid });
+        });
+
         cluster.on('exit', (worker, code, signal) => {
             log.warn('worker died, restarting...', {
                 pid: worker.process.pid,
@@ -24,8 +28,6 @@ import log from './log';
         }
     } else {
         await db.initialize();
-
-        log.info('worker online', { pid: process.pid });
         app.listen(3000);
     }
 })();
