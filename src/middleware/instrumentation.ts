@@ -9,10 +9,21 @@ const logContext = async (_ctx: Context, next: Next) => {
 
 const logRequestResponse = async (ctx: Context, next: Next) => {
     log.addContext({ method: ctx.method, url_path: ctx.url });
-    log.info('request', { accepts: ctx.accepts() });
+    log.info('request', {
+        accepts: ctx.accepts(),
+        hostname: ctx.hostname,
+        src_ip: ctx.ip,
+        protocol: ctx.protocol,
+    });
+
     const start = Date.now();
     await next();
-    log.info('response', { status: ctx.status, duration: Date.now() - start });
+
+    log.info('response', {
+        status: ctx.status,
+        contentLength: ctx.length,
+        duration: Date.now() - start,
+    });
 };
 
 const requestId = async (ctx: Context, next: Next) => {
@@ -20,7 +31,9 @@ const requestId = async (ctx: Context, next: Next) => {
         ? ctx.get('x-request-id')
         : uuid.v4();
     log.addContext({ requestId });
+
     await next();
+
     ctx.set('x-request-id', requestId);
 };
 
