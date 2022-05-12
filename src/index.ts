@@ -1,22 +1,16 @@
 import cluster from 'node:cluster';
-import crypto from 'node:crypto';
 import os from 'node:os';
 import process from 'node:process';
 
 import app from './app';
 import db from './db';
+import { ApiError } from './errors';
 import log from './log';
 
 process.on('uncaughtExceptionMonitor', error => {
-    log.error('uncaught exception', {
+    log.fatal('uncaught exception', {
         pid: process.pid,
-        error: {
-            id: crypto.randomUUID(),
-            name: error.name,
-            cause: error.cause,
-            stack: error.stack,
-            message: error.message,
-        },
+        error: ApiError.serialize(error),
     });
 });
 

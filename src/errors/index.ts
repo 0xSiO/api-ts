@@ -1,23 +1,50 @@
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 
-import { WError, Info } from 'verror';
+import VError from 'verror';
 
 interface Options {
     message: string;
-    details?: Info;
+    details?: VError.Info;
     cause?: Error | null;
 }
 
-class ApiError extends WError {
+interface SerializedError {
+    id: string;
+    name: string;
+    message: string;
+    details: VError.Info;
+    stack: string;
+}
+
+class ApiError extends VError.WError {
     public readonly id: string = crypto.randomUUID();
 
     constructor(options: Options) {
         super({ cause: options.cause, info: options.details }, options.message);
         this.name = this.constructor.name;
     }
+
+    static serialize(error: unknown): SerializedError {
+        if (error instanceof Error) {
+            return {
+                id: error instanceof ApiError ? error.id : crypto.randomUUID(),
+                name: error.name,
+                message: error.message,
+                details: VError.info(error),
+                stack: VError.fullStack(error),
+            };
+        } else {
+            return ApiError.serialize(
+                new ApiError({
+                    message: 'A non-Error object was thrown',
+                    details: { object: error },
+                })
+            );
+        }
+    }
 }
 
-abstract class HttpError extends ApiError {
+class HttpError extends ApiError {
     public readonly status: number;
 
     constructor(status: number, options: Options) {
@@ -26,16 +53,4 @@ abstract class HttpError extends ApiError {
     }
 }
 
-class InternalError extends HttpError {
-    constructor(options: Options) {
-        super(500, options);
-    }
-}
-
-class BadRequestError extends HttpError {
-    constructor(options: Options) {
-        super(400, options);
-    }
-}
-
-export { ApiError, HttpError, InternalError, BadRequestError };
+export { ApiError, HttpError };

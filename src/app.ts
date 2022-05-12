@@ -2,9 +2,12 @@ import Koa from 'koa';
 import koaBody from 'koa-body';
 import Router from '@koa/router';
 
+import errorHandler from './middleware/error-handler';
 import healthRouter from './routes/health';
 
 const app = new Koa();
+app.use(errorHandler);
+
 const router = new Router();
 
 router.use(koaBody());
