@@ -1,5 +1,4 @@
-import crypto from 'node:crypto';
-
+import * as uuid from 'uuid';
 import VError from 'verror';
 
 interface ApiErrorOptions {
@@ -17,7 +16,7 @@ interface SerializedError {
 }
 
 class ApiError extends VError.WError {
-    public readonly id: string = crypto.randomUUID();
+    public readonly id: string = uuid.v4();
 
     constructor(options: ApiErrorOptions) {
         super({ cause: options.cause, info: options.details }, options.message);
@@ -27,7 +26,7 @@ class ApiError extends VError.WError {
     static serialize(error: unknown): SerializedError {
         if (error instanceof Error) {
             return {
-                id: error instanceof ApiError ? error.id : crypto.randomUUID(),
+                id: error instanceof ApiError ? error.id : uuid.v4(),
                 name: error.name,
                 message: error.message,
                 details: VError.info(error),
