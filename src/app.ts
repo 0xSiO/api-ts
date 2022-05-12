@@ -3,11 +3,15 @@ import koaBody from 'koa-body';
 import Router from '@koa/router';
 
 import errorHandler from './middleware/error-handler';
-import logContext from './middleware/log-context';
+import logRequestResponse from './middleware/log-request-response';
+import requestId from './middleware/request-id';
 import healthRouter from './routes/health';
+import log from './log';
 
 const app = new Koa();
-app.use(logContext);
+app.use(async (_ctx, next) => log.withContext({}, next));
+app.use(requestId);
+app.use(logRequestResponse);
 app.use(errorHandler);
 
 const router = new Router();
