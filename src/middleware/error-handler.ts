@@ -15,10 +15,11 @@ async function errorHandler(ctx: Context, next: Next) {
                 id: serialized.id,
                 status: error.status,
                 message: serialized.message,
+                // NOTE: This includes details for all causes too.
                 details: serialized.details,
             };
         } else {
-            // Don't expose unknown errors to the user
+            // Don't expose unknown error details to the user
             ctx.status = 500;
             ctx.body = {
                 id: serialized.id,
