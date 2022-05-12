@@ -36,6 +36,8 @@ process.on('uncaughtExceptionMonitor', error => {
         }
     } else {
         await db.initialize();
-        app.listen(3000);
+        app.listen(3000, () => {
+            log.info('HTTP server listening', { pid: process.pid, port: 3000 });
+        });
     }
 })();
