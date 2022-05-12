@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts",
+    "lint": "eslint .",
+    "tsc": "tsc"
   },
   "engines": {
     "node": "v18.0.0",
