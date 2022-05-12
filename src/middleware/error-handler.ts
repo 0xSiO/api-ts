@@ -8,7 +8,6 @@ async function errorHandler(ctx: Context, next: Next) {
         await next();
     } catch (error) {
         const serialized = ApiError.serialize(error);
-        log.error('unhandled error', { error: serialized });
 
         if (error instanceof HttpError) {
             ctx.status = error.status;
@@ -27,6 +26,12 @@ async function errorHandler(ctx: Context, next: Next) {
                 message: 'An unknown error occurred',
                 details: {},
             };
+        }
+
+        if (ctx.status < 500) {
+            log.warn('client error', { status: ctx.status, error: serialized });
+        } else {
+            log.error('server error', { status: ctx.status, error: serialized });
         }
     }
 }
