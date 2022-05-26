@@ -21,7 +21,7 @@ const logRequestResponse = async (ctx: Context, next: Next) => {
 
     log.info('response', {
         status: ctx.status,
-        contentLength: ctx.length,
+        content_length: ctx.length,
         duration: Date.now() - start,
     });
 };
@@ -30,7 +30,7 @@ const requestId = async (ctx: Context, next: Next) => {
     const requestId = uuid.validate(ctx.get('x-request-id'))
         ? ctx.get('x-request-id')
         : uuid.v4();
-    log.addContext({ requestId });
+    log.addContext({ request_id: requestId });
 
     await next();
 
