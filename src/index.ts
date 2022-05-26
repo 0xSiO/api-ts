@@ -17,6 +17,7 @@ process.on('uncaughtExceptionMonitor', error => {
 (async () => {
     if (cluster.isPrimary) {
         log.info('primary online', { pid: process.pid });
+        await db.initialize();
 
         cluster.on('online', worker => {
             log.info('worker online', { pid: worker.process.pid });
