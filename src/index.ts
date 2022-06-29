@@ -14,7 +14,7 @@ process.on('uncaughtExceptionMonitor', error => {
     });
 });
 
-(async () => {
+void (async () => {
     if (cluster.isPrimary) {
         log.info('primary online', { pid: process.pid });
         await db.initialize();
@@ -32,9 +32,7 @@ process.on('uncaughtExceptionMonitor', error => {
             cluster.fork();
         });
 
-        for (let i = 0; i < os.cpus().length; i++) {
-            cluster.fork();
-        }
+        os.cpus().forEach(() => cluster.fork());
     } else {
         await db.initialize();
         app.listen(3000, () => {

@@ -10,7 +10,7 @@ class ContextLogger extends Logger {
     }
 
     getContext(): object {
-        return this.context.getStore() || {};
+        return this.context.getStore() ?? {};
     }
 
     addContext(context: object): void {

@@ -9,9 +9,7 @@ router.get('/health', async ctx => {
     const start = Date.now();
 
     try {
-        const [row] = await db.query('SELECT version()');
-        if (!row || !row.version) throw new Error('no DB version found');
-
+        const [row] = (await db.query('SELECT version()')) as [{ version: string }];
         const duration = Date.now() - start;
         ctx.body = { status: 'up', duration, db_version: row.version };
     } catch (error) {
