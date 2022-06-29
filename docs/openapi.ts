@@ -1,28 +1,6 @@
 import { OpenAPIV3 } from 'openapi-types';
 
-const errorResponse = (
-  status: number,
-  message: string,
-  details: object = {}
-): OpenAPIV3.ResponseObject => ({
-  description: message,
-  content: {
-    'application/json': {
-      schema: {
-        allOf: [
-          { $ref: '#/components/schemas/Error' },
-          {
-            properties: {
-              status: { example: status },
-              message: { example: message },
-              details: { example: details },
-            },
-          },
-        ],
-      },
-    },
-  },
-});
+import { errorResponse } from './error-helpers';
 
 const apiDefinition: OpenAPIV3.Document = {
   openapi: '3.0.3',
@@ -45,8 +23,24 @@ const apiDefinition: OpenAPIV3.Document = {
       },
     },
     responses: {
-      InternalServerError: errorResponse(500, 'An unknown error occurred'),
-      BadRequestError: errorResponse(400, 'Your request was malformed or invalid'),
+      InternalServerError: errorResponse({
+        status: 500,
+        message: 'An unknown error occurred',
+      }),
+      MultiExampleError: errorResponse({
+        status: 400,
+        message: 'Your request was malformed or invalid',
+        examples: {
+          'Example One': {
+            message: 'Multi-error example 1',
+            details: { example: 'details 1' },
+          },
+          'Example Two': {
+            message: 'Multi-error example 2',
+            details: { example: 'details 2' },
+          },
+        },
+      }),
     },
   },
   paths: {
