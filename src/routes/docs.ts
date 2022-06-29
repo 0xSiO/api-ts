@@ -4,9 +4,11 @@ import apiDefinition from '../../docs/openapi';
 
 const router = new Router();
 
-router.get('/docs/openapi.json', async ctx => (ctx.body = apiDefinition));
+router.get('/docs/openapi.json', ctx => {
+    ctx.body = apiDefinition;
+});
 
-router.get('/docs', async ctx => {
+router.get('/docs', ctx => {
     ctx.body = `
 <!doctype html>
 <html lang="en">

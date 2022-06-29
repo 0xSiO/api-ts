@@ -5,7 +5,7 @@ import { ILogObject, Logger } from 'tslog';
 class ContextLogger extends Logger {
     private readonly context: AsyncLocalStorage<object> = new AsyncLocalStorage();
 
-    withContext(context: object, fn: () => unknown): unknown {
+    withContext<T>(context: object, fn: () => T): T {
         return this.context.run(context, fn);
     }
 
