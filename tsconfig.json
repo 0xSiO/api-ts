@@ -16,7 +16,6 @@
     "strictPropertyInitialization": false
   },
   "typeAcquisition": { "enable": true },
-  "include": ["bin/**/*", "src/**/*"],
   "exclude": ["**/test"],
   "ts-node": {
     "transpileOnly": true,

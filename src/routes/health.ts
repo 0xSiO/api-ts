@@ -13,7 +13,7 @@ router.get('/health', async ctx => {
         if (!row || !row.version) throw new Error('no DB version found');
 
         const duration = Date.now() - start;
-        ctx.body = { status: 'up', duration, server_version: row.version };
+        ctx.body = { status: 'up', duration, db_version: row.version };
     } catch (error) {
         const duration = Date.now() - start;
         log.error('database health check failed', { error });
