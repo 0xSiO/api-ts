@@ -1,5 +1,29 @@
 import { OpenAPIV3 } from 'openapi-types';
 
+const errorResponse = (
+  status: number,
+  message: string,
+  details: object = {}
+): OpenAPIV3.ResponseObject => ({
+  description: message,
+  content: {
+    'application/json': {
+      schema: {
+        allOf: [
+          { $ref: '#/components/schemas/Error' },
+          {
+            properties: {
+              status: { example: status },
+              message: { example: message },
+              details: { example: details },
+            },
+          },
+        ],
+      },
+    },
+  },
+});
+
 const apiDefinition: OpenAPIV3.Document = {
   openapi: '3.0.3',
   info: {
@@ -19,46 +43,10 @@ const apiDefinition: OpenAPIV3.Document = {
           details: { type: 'object' },
         },
       },
-      InternalServerError: {
-        allOf: [
-          { $ref: '#/components/schemas/Error' },
-          {
-            properties: {
-              status: { default: 500 },
-              message: { default: 'An unknown error occurred' },
-            },
-          },
-        ],
-      },
-      BadRequestError: {
-        allOf: [
-          { $ref: '#/components/schemas/Error' },
-          {
-            properties: {
-              status: { default: 400 },
-              message: { default: 'Your request was malformed or invalid' },
-            },
-          },
-        ],
-      },
     },
     responses: {
-      InternalServerError: {
-        description: '',
-        content: {
-          'application/json': {
-            schema: { $ref: '#/components/schemas/InternalServerError' },
-          },
-        },
-      },
-      BadRequestError: {
-        description: '',
-        content: {
-          'application/json': {
-            schema: { $ref: '#/components/schemas/BadRequestError' },
-          },
-        },
-      },
+      InternalServerError: errorResponse(500, 'An unknown error occurred'),
+      BadRequestError: errorResponse(400, 'Your request was malformed or invalid'),
     },
   },
   paths: {
