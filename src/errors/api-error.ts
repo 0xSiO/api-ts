@@ -24,22 +24,20 @@ class ApiError extends VError.WError {
     }
 
     static serialize(error: unknown): SerializedError {
-        if (error instanceof Error) {
-            return {
-                id: error instanceof ApiError ? error.id : uuid.v4(),
-                name: error.name,
-                message: error.message,
-                details: VError.info(error),
-                stack: VError.fullStack(error),
-            };
-        } else {
-            return ApiError.serialize(
-                new ApiError({
-                    message: 'A non-Error object was thrown',
-                    details: { object: error },
-                })
-            );
-        }
+        return error instanceof Error
+            ? {
+                  id: error instanceof ApiError ? error.id : uuid.v4(),
+                  name: error.name,
+                  message: error.message,
+                  details: VError.info(error),
+                  stack: VError.fullStack(error),
+              }
+            : ApiError.serialize(
+                  new ApiError({
+                      message: 'A non-Error object was thrown',
+                      details: { object: error },
+                  })
+              );
     }
 }
 

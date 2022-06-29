@@ -1,4 +1,2 @@
-import { ApiError } from './api-error';
-import { HttpError } from './http-error';
-
-export { ApiError, HttpError };
+export { ApiError } from './api-error';
+export { HttpError } from './http-error';
