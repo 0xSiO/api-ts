@@ -15,8 +15,6 @@ interface ErrorExample {
 }
 
 export function errorResponse(options: ErrorResponseOptions): OpenAPIV3.ResponseObject {
-    options.details = options.details ?? {};
-
     const examples: Record<string, OpenAPIV3.ExampleObject> = {};
     if (options.examples) {
         for (const [name, example] of Object.entries(options.examples)) {
@@ -34,13 +32,15 @@ export function errorResponse(options: ErrorResponseOptions): OpenAPIV3.Response
                 schema: {
                     allOf: [
                         { $ref: '#/components/schemas/Error' },
-                        {
-                            properties: {
-                                status: { example: options.status },
-                                message: { example: options.message },
-                                details: { example: options.details },
-                            },
-                        },
+                        Object.keys(examples).length === 0
+                            ? {
+                                  properties: {
+                                      status: { example: options.status },
+                                      message: { example: options.message },
+                                      details: { example: options.details ?? {} },
+                                  },
+                              }
+                            : {},
                     ],
                 },
                 ...(options.examples ? { examples } : {}),
