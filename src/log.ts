@@ -1,9 +1,9 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
 
-import { ILogObject, Logger } from 'tslog';
+import { Logger } from 'tslog';
 
-class ContextLogger extends Logger {
-    private readonly context: AsyncLocalStorage<object> = new AsyncLocalStorage();
+class ContextLogger<LogObj> extends Logger<LogObj> {
+    private readonly context = new AsyncLocalStorage<object>();
 
     withContext<T>(context: object, fn: () => T): T {
         return this.context.run(context, fn);
@@ -17,31 +17,31 @@ class ContextLogger extends Logger {
         Object.assign(this.getContext(), context);
     }
 
-    silly(message: string, details?: object): ILogObject {
+    silly(message: string, details?: object) {
         return super.silly(message, { ...this.getContext(), ...details });
     }
 
-    trace(message: string, details?: object): ILogObject {
+    trace(message: string, details?: object) {
         return super.trace(message, { ...this.getContext(), ...details });
     }
 
-    debug(message: string, details?: object): ILogObject {
+    debug(message: string, details?: object) {
         return super.debug(message, { ...this.getContext(), ...details });
     }
 
-    info(message: string, details?: object): ILogObject {
+    info(message: string, details?: object) {
         return super.info(message, { ...this.getContext(), ...details });
     }
 
-    warn(message: string, details?: object): ILogObject {
+    warn(message: string, details?: object) {
         return super.warn(message, { ...this.getContext(), ...details });
     }
 
-    error(message: string, details?: object): ILogObject {
+    error(message: string, details?: object) {
         return super.error(message, { ...this.getContext(), ...details });
     }
 
-    fatal(message: string, details?: object): ILogObject {
+    fatal(message: string, details?: object) {
         return super.fatal(message, { ...this.getContext(), ...details });
     }
 }
