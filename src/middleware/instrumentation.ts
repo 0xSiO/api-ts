@@ -7,6 +7,17 @@ const logContext = async (_ctx: Context, next: Next) => {
     return log.withContext({}, next);
 };
 
+const requestId = async (ctx: Context, next: Next) => {
+    const requestId = uuid.validate(ctx.get('x-request-id'))
+        ? ctx.get('x-request-id')
+        : uuid.v4();
+    log.addContext({ request_id: requestId });
+
+    await next();
+
+    ctx.set('x-request-id', requestId);
+};
+
 const logRequestResponse = async (ctx: Context, next: Next) => {
     log.addContext({ method: ctx.method, url_path: ctx.url });
     log.info('request', {
@@ -26,15 +37,4 @@ const logRequestResponse = async (ctx: Context, next: Next) => {
     });
 };
 
-const requestId = async (ctx: Context, next: Next) => {
-    const requestId = uuid.validate(ctx.get('x-request-id'))
-        ? ctx.get('x-request-id')
-        : uuid.v4();
-    log.addContext({ request_id: requestId });
-
-    await next();
-
-    ctx.set('x-request-id', requestId);
-};
-
-export { logContext, logRequestResponse, requestId };
+export { logContext, requestId, logRequestResponse };

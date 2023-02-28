@@ -41,4 +41,13 @@ class ApiError extends VError.WError {
     }
 }
 
-export { ApiErrorOptions, SerializedError, ApiError };
+class HttpError extends ApiError {
+    public readonly status: number;
+
+    constructor(status: number, options: ApiErrorOptions) {
+        super(options);
+        this.status = status;
+    }
+}
+
+export { ApiErrorOptions, SerializedError, ApiError, HttpError };
