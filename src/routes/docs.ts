@@ -2,7 +2,7 @@ import Router from '@koa/router';
 
 import apiDefinition from '../../docs/openapi';
 
-const SWAGGER_UI_VERSION = '4.12.0';
+const SWAGGER_UI_VERSION = '5.1.0';
 
 const router = new Router();
 
