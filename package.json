@@ -16,10 +16,10 @@
     "@koa/router": "^13",
     "koa": "^2",
     "openapi-types": "^12",
-    "pg": "^8.13.0",
-    "reflect-metadata": "^0.2.2",
+    "pg": "^8",
+    "reflect-metadata": "^0.2",
     "tslog": "^4",
-    "typeorm": "^0.3.20",
+    "typeorm": "^0.3",
     "uuid": "^10",
     "verror": "^1"
   },

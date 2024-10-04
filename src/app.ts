@@ -5,7 +5,7 @@ import Router from '@koa/router';
 import errorHandler from './middleware/error-handler';
 import { logContext, logRequestResponse, requestId } from './middleware/instrumentation';
 import docsRouter from './routes/docs';
-import healthRouter from './routes/health';
+import metaRouter from './routes/meta';
 
 const app = new Koa();
 app.use(logContext);
@@ -17,7 +17,7 @@ const router = new Router();
 
 router.use(bodyParser());
 router.use(docsRouter.routes());
-router.use(healthRouter.routes());
+router.use(metaRouter.routes());
 
 app.use(router.routes());
 

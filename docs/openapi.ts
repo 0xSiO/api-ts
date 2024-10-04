@@ -3,7 +3,7 @@ import { OpenAPIV3 } from 'openapi-types';
 import { errorResponse } from './error-helpers';
 
 const apiDefinition: OpenAPIV3.Document = {
-    openapi: '3.0.3',
+    openapi: '3.1.0',
     info: {
         title: 'API',
         version: '0.0.0',
