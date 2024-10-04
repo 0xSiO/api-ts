@@ -1,4 +1,4 @@
-import { Context, Next } from 'koa';
+import type { Context, Next } from 'koa';
 
 import { ApiError, HttpError } from '../errors';
 import log from '../log';
@@ -15,7 +15,6 @@ export default async (ctx: Context, next: Next) => {
                 id: serialized.id,
                 status: error.status,
                 message: serialized.message,
-                // NOTE: This includes details for all causes too.
                 details: serialized.details,
             };
         } else {

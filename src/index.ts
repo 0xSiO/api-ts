@@ -14,29 +14,27 @@ process.on('uncaughtExceptionMonitor', error => {
     });
 });
 
-void (async () => {
-    if (cluster.isPrimary) {
-        log.info('primary online', { pid: process.pid });
-        await db.initialize();
+if (cluster.isPrimary) {
+    log.info('primary online', { pid: process.pid });
+    await db.initialize();
 
-        cluster.on('online', worker => {
-            log.info('worker online', { pid: worker.process.pid });
-        });
+    cluster.on('online', worker => {
+        log.info('worker online', { pid: worker.process.pid });
+    });
 
-        cluster.on('exit', (worker, code, signal) => {
-            log.warn('worker died, restarting...', {
-                pid: worker.process.pid,
-                code,
-                signal,
-            });
-            cluster.fork();
+    cluster.on('exit', (worker, code, signal) => {
+        log.warn('worker died, restarting...', {
+            pid: worker.process.pid,
+            code,
+            signal,
         });
+        cluster.fork();
+    });
 
-        os.cpus().forEach(() => cluster.fork());
-    } else {
-        await db.initialize();
-        app.listen(3000, () => {
-            log.info('HTTP server listening', { pid: process.pid, port: 3000 });
-        });
-    }
-})();
+    os.cpus().forEach(() => cluster.fork());
+} else {
+    await db.initialize();
+    app.listen(3000, () => {
+        log.info('HTTP server listening', { pid: process.pid, port: 3000 });
+    });
+}

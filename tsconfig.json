@@ -1,24 +1,14 @@
 {
+  "extends": "@tsconfig/node22/tsconfig.json",
   "compilerOptions": {
-    "module": "CommonJS",
-    "target": "ES2022",
-
-    "strict": true,
-    "exactOptionalPropertyTypes": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
-
-    "outDir": "dist",
-    "inlineSourceMap": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "allowArbitraryExtensions": true,
+    "verbatimModuleSyntax": true,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "strictPropertyInitialization": false
+    "experimentalDecorators": true
   },
-  "typeAcquisition": { "enable": true },
-  "exclude": ["**/test"],
-  "ts-node": {
-    "transpileOnly": true,
-    "files": true
-  }
+  "include": ["docs/**/*", "src/**/*"]
 }

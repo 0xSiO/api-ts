@@ -2,8 +2,7 @@ import Router from '@koa/router';
 
 import apiDefinition from '../../docs/openapi';
 
-const SWAGGER_UI_VERSION = '5.1.0';
-
+const SWAGGER_UI_VERSION = '5.17.14';
 const router = new Router();
 
 router.get('/docs/openapi.json', ctx => {

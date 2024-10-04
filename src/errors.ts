@@ -36,7 +36,7 @@ class ApiError extends VError.WError {
                   new ApiError({
                       message: 'A non-Error object was thrown',
                       details: { object: error },
-                  })
+                  }),
               );
     }
 }
@@ -50,4 +50,5 @@ class HttpError extends ApiError {
     }
 }
 
-export { ApiErrorOptions, SerializedError, ApiError, HttpError };
+export type { ApiErrorOptions, SerializedError };
+export { ApiError, HttpError };

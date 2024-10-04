@@ -1,8 +1,5 @@
 {
   "printWidth": 90,
   "singleQuote": true,
-  "arrowParens": "avoid",
-  "overrides": [
-    { "files": "*.ts", "excludeFiles": "docs/openapi.ts", "options": { "tabWidth": 4 } }
-  ]
+  "arrowParens": "avoid"
 }

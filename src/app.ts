@@ -1,5 +1,5 @@
 import Koa from 'koa';
-import koaBody from 'koa-body';
+import bodyParser from '@koa/bodyparser';
 import Router from '@koa/router';
 
 import errorHandler from './middleware/error-handler';
@@ -15,7 +15,7 @@ app.use(errorHandler);
 
 const router = new Router();
 
-router.use(koaBody());
+router.use(bodyParser());
 router.use(docsRouter.routes());
 router.use(healthRouter.routes());
 

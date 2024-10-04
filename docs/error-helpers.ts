@@ -18,6 +18,7 @@ export function errorResponse(options: ErrorResponseOptions): OpenAPIV3.Response
     const examples: Record<string, OpenAPIV3.ExampleObject> = {};
     if (options.examples) {
         for (const [name, example] of Object.entries(options.examples)) {
+            // eslint-disable-next-line security/detect-object-injection
             examples[name] = {
                 summary: name,
                 value: { id: crypto.randomUUID(), status: options.status, ...example },
