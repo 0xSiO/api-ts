@@ -5,13 +5,13 @@ import { OpenAPIV3 } from 'openapi-types';
 interface ErrorResponseOptions {
     status: number;
     message: string;
-    details?: object;
+    details?: Record<string, any>;
     examples?: Record<string, ErrorExample>;
 }
 
 interface ErrorExample {
     message: string;
-    details?: object;
+    details?: Record<string, any>;
 }
 
 export function errorResponse(options: ErrorResponseOptions): OpenAPIV3.ResponseObject {
