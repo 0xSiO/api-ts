@@ -16,7 +16,7 @@ interface SerializedError {
 }
 
 class ApiError extends VError.WError {
-    public readonly id: string = uuid.v4();
+    public readonly id: string = uuid.v7();
 
     constructor(options: ApiErrorOptions) {
         super({ cause: options.cause, info: options.details }, options.message);
@@ -26,7 +26,7 @@ class ApiError extends VError.WError {
     static serialize(error: unknown): SerializedError {
         return error instanceof Error
             ? {
-                  id: error instanceof ApiError ? error.id : uuid.v4(),
+                  id: error instanceof ApiError ? error.id : uuid.v7(),
                   name: error.name,
                   message: error.message,
                   details: VError.info(error),

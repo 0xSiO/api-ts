@@ -10,7 +10,7 @@ const logContext = async (_ctx: Context, next: Next) => {
 const requestId = async (ctx: Context, next: Next) => {
     const requestId = uuid.validate(ctx.get('x-request-id'))
         ? ctx.get('x-request-id')
-        : uuid.v4();
+        : uuid.v7();
     log.addContext({ request_id: requestId });
 
     await next();

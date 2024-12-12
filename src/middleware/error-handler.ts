@@ -3,7 +3,7 @@ import type { Context, Next } from 'koa';
 import { ApiError, HttpError } from '../errors';
 import log from '../log';
 
-export default async (ctx: Context, next: Next) => {
+export default async function errorHandler(ctx: Context, next: Next) {
     try {
         await next();
     } catch (error) {
@@ -34,4 +34,4 @@ export default async (ctx: Context, next: Next) => {
             log.error('server error', { status: ctx.status, error: serialized });
         }
     }
-};
+}

@@ -21,7 +21,7 @@
     "tslog": "^4",
     "tsx": "^4",
     "typeorm": "^0.3",
-    "uuid": "^10",
+    "uuid": "^11",
     "verror": "^1"
   },
   "devDependencies": {

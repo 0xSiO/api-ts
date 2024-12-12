@@ -26,8 +26,6 @@ export default tseslint.config(
     {
         rules: {
             '@typescript-eslint/no-explicit-any': 'off',
-            '@typescript-eslint/no-unused-vars': 'off',
-            'unicorn/no-anonymous-default-export': 'off',
             'unicorn/no-array-for-each': 'off',
             'unicorn/prevent-abbreviations': 'off',
         },
