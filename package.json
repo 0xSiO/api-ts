@@ -33,11 +33,11 @@
     "@types/uuid": "^10",
     "@types/verror": "^1",
     "eslint": "^9",
-    "eslint-config-prettier": "^9",
+    "eslint-config-prettier": "^10",
     "eslint-plugin-n": "^17",
     "eslint-plugin-prettier": "^5",
     "eslint-plugin-security": "^3",
-    "eslint-plugin-unicorn": "^56",
+    "eslint-plugin-unicorn": "^57",
     "prettier": "^3",
     "typescript": "^5",
     "typescript-eslint": "^8"

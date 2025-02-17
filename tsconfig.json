@@ -9,6 +9,5 @@
     "verbatimModuleSyntax": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
-  },
-  "include": ["docs/**/*", "src/**/*"]
+  }
 }
