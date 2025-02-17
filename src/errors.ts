@@ -1,3 +1,7 @@
+import type {
+    ClientErrorStatusCode,
+    ServerErrorStatusCode,
+} from 'hono/utils/http-status';
 import * as uuid from 'uuid';
 import VError from 'verror';
 
@@ -42,9 +46,12 @@ class ApiError extends VError.WError {
 }
 
 class HttpError extends ApiError {
-    public readonly status: number;
+    public readonly status: ClientErrorStatusCode | ServerErrorStatusCode;
 
-    constructor(status: number, options: ApiErrorOptions) {
+    constructor(
+        status: ClientErrorStatusCode | ServerErrorStatusCode,
+        options: ApiErrorOptions,
+    ) {
         super(options);
         this.status = status;
     }

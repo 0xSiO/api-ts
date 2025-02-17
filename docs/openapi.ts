@@ -1,81 +1,12 @@
-import { OpenAPIV3 } from 'openapi-types';
+import type { OpenAPIV3_1 } from 'openapi-types';
 
-import { errorResponse } from './error-helpers';
-
-const apiDefinition: OpenAPIV3.Document = {
+const apiDef: OpenAPIV3_1.Document = {
     openapi: '3.1.0',
     info: {
-        title: 'API',
+        title: 'API Docs',
         version: '0.0.0',
     },
-    components: {
-        schemas: {
-            Error: {
-                type: 'object',
-                required: ['id', 'status', 'message', 'details'],
-                discriminator: { propertyName: 'status' },
-                properties: {
-                    id: { type: 'string', format: 'uuid' },
-                    status: { type: 'number' },
-                    message: { type: 'string' },
-                    details: { type: 'object' },
-                },
-            },
-        },
-        responses: {
-            InternalServerError: errorResponse({
-                status: 500,
-                message: 'An unknown error occurred',
-            }),
-            MultiExampleError: errorResponse({
-                status: 400,
-                message: 'Your request was malformed or invalid',
-                examples: {
-                    'Example One': {
-                        message: 'Multi-error example 1',
-                        details: { example: 'details 1' },
-                    },
-                    'Example Two': {
-                        message: 'Multi-error example 2',
-                        details: { example: 'details 2' },
-                    },
-                },
-            }),
-        },
-    },
-    paths: {
-        '/health': {
-            get: {
-                responses: {
-                    '200': {
-                        description: '',
-                        content: {
-                            'application/json': {
-                                examples: {
-                                    success: {
-                                        summary: 'Success',
-                                        value: {
-                                            status: 'up',
-                                            duration: 5,
-                                            db_version: 'PostgreSQL 14.1',
-                                        },
-                                    },
-                                    failure: {
-                                        summary: 'Failure',
-                                        value: {
-                                            status: 'down',
-                                            duration: 5,
-                                            error: 'Error: Something went wrong',
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                    },
-                },
-            },
-        },
-    },
+    paths: {},
 };
 
-export default apiDefinition;
+export default apiDef;

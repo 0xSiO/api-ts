@@ -1,24 +1,17 @@
-import Koa from 'koa';
-import bodyParser from '@koa/bodyparser';
-import Router from '@koa/router';
+import { Hono } from 'hono';
 
-import errorHandler from './middleware/error-handler';
-import { logContext, logRequestResponse, requestId } from './middleware/instrumentation';
-import docsRouter from './routes/docs';
-import metaRouter from './routes/meta';
+import errorHandler from './error-handler';
+import instrumentation from './middleware/instrumentation';
+import docsRoutes from './routes/docs';
+import metaRoutes from './routes/meta';
 
-const app = new Koa();
-app.use(logContext);
-app.use(requestId);
-app.use(logRequestResponse);
-app.use(errorHandler);
+const app = new Hono();
+app.use(instrumentation.logContext);
+app.use(instrumentation.requestId);
+app.use(instrumentation.logRequestResponse);
+app.onError(errorHandler);
 
-const router = new Router();
-
-router.use(bodyParser());
-router.use(docsRouter.routes());
-router.use(metaRouter.routes());
-
-app.use(router.routes());
+app.route('/docs', docsRoutes);
+app.route('/meta', metaRoutes);
 
 export default app;

@@ -2,6 +2,8 @@ import cluster from 'node:cluster';
 import os from 'node:os';
 import process from 'node:process';
 
+import { serve } from '@hono/node-server';
+
 import app from './app';
 import db from './db';
 import { ApiError } from './errors';
@@ -34,7 +36,7 @@ if (cluster.isPrimary) {
     os.cpus().forEach(() => cluster.fork());
 } else {
     await db.initialize();
-    app.listen(3000, () => {
-        log.info('HTTP server listening', { pid: process.pid, port: 3000 });
+    serve({ fetch: app.fetch, port: 3000 }, info => {
+        log.info('HTTP server listening', { pid: process.pid, port: info.port });
     });
 }

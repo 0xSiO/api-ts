@@ -21,7 +21,7 @@ export default tseslint.config(
     pluginPrettier,
     pluginNode.configs['flat/recommended'],
     pluginSecurity.configs.recommended,
-    pluginUnicorn.configs['flat/recommended'],
+    pluginUnicorn.configs.recommended,
     { files: ['eslint.config.js'], extends: [tseslint.configs.disableTypeChecked] },
     {
         rules: {

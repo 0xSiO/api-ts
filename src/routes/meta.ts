@@ -1,9 +1,22 @@
-import Router from '@koa/router';
+import { Hono } from 'hono';
 
-import metaController from '../controllers/meta';
+import db from '../db';
+import log from '../log';
 
-const router = new Router();
+const metaRoutes = new Hono();
 
-router.get('/meta/health', metaController.checkHealth);
+metaRoutes.get('/health', async c => {
+    const start = Date.now();
 
-export default router;
+    try {
+        const [row] = (await db.query('SELECT version()')) as [{ version: string }];
+        const duration = Date.now() - start;
+        return c.json({ status: 'up', duration, db_version: row.version });
+    } catch (error) {
+        const duration = Date.now() - start;
+        log.error('database health check failed', { error });
+        return c.json({ status: 'down', duration, error: String(error) });
+    }
+});
+
+export default metaRoutes;

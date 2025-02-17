@@ -1,10 +1,33 @@
-import Router from '@koa/router';
+import { Hono } from 'hono';
 
-import docsController from '../controllers/docs';
+import apiDef from '../../docs/openapi';
 
-const router = new Router();
+const SWAGGER_UI_VERSION = '5';
 
-router.get('/docs/openapi.json', docsController.openApi);
-router.get('/docs', docsController.swaggerDocs);
+const docsRoutes = new Hono();
 
-export default router;
+docsRoutes.get('/openapi.json', async c => c.json(apiDef));
+
+docsRoutes.get('/', async c =>
+    c.html(`
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>API Documentation</title>
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@${SWAGGER_UI_VERSION}/swagger-ui.css" />
+</head>
+<body>
+  <div id="swagger-ui"></div>
+  <script src="https://unpkg.com/swagger-ui-dist@${SWAGGER_UI_VERSION}/swagger-ui-bundle.js" crossorigin></script>
+  <script>
+    window.onload = () => {
+      window.ui = SwaggerUIBundle({ url: '/docs/openapi.json', dom_id: '#swagger-ui' });
+    };
+  </script>
+</body>
+</html>`),
+);
+
+export default docsRoutes;

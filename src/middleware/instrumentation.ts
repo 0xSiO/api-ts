@@ -1,40 +1,33 @@
-import type { Context, Next } from 'koa';
+import { getConnInfo } from '@hono/node-server/conninfo';
+import { createMiddleware } from 'hono/factory';
 import * as uuid from 'uuid';
 
 import log from '../log';
 
-const logContext = async (_ctx: Context, next: Next) => {
-    return log.withContext({}, next);
+export default {
+    logContext: createMiddleware(async (_c, next) => log.withContext({}, next)),
+
+    requestId: createMiddleware(async (c, next) => {
+        const requestId = uuid.validate(c.req.header('x-request-id'))
+            ? c.req.header('x-request-id')
+            : uuid.v7();
+        log.addContext({ request_id: requestId });
+
+        await next();
+
+        c.header('x-request-id', requestId);
+    }),
+
+    logRequestResponse: createMiddleware(async (c, next) => {
+        log.addContext({ method: c.req.method, url_path: c.req.path });
+        log.info('request', {
+            accept: c.req.header('accept'),
+            src_ip: getConnInfo(c).remote.address,
+        });
+
+        const start = Date.now();
+        await next();
+
+        log.info('response', { status: c.res.status, duration: Date.now() - start });
+    }),
 };
-
-const requestId = async (ctx: Context, next: Next) => {
-    const requestId = uuid.validate(ctx.get('x-request-id'))
-        ? ctx.get('x-request-id')
-        : uuid.v7();
-    log.addContext({ request_id: requestId });
-
-    await next();
-
-    ctx.set('x-request-id', requestId);
-};
-
-const logRequestResponse = async (ctx: Context, next: Next) => {
-    log.addContext({ method: ctx.method, url_path: ctx.url });
-    log.info('request', {
-        accepts: ctx.accepts(),
-        hostname: ctx.hostname,
-        src_ip: ctx.ip,
-        protocol: ctx.protocol,
-    });
-
-    const start = Date.now();
-    await next();
-
-    log.info('response', {
-        status: ctx.status,
-        content_length: ctx.length,
-        duration: Date.now() - start,
-    });
-};
-
-export { logContext, requestId, logRequestResponse };
