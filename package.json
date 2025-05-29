@@ -3,13 +3,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
     "start": "tsx src/index.ts"
   },
   "engines": {
-    "node": "^22",
-    "npm": "^10"
+    "node": "^24",
+    "npm": "^11"
   },
   "dependencies": {
     "@hono/node-server": "^1",
@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9",
-    "@tsconfig/node22": "^22",
+    "@tsconfig/node24": "^24",
     "@types/node": "^22",
     "@types/uuid": "^10",
     "@types/verror": "^1",
@@ -34,7 +34,7 @@
     "eslint-plugin-n": "^17",
     "eslint-plugin-prettier": "^5",
     "eslint-plugin-security": "^3",
-    "eslint-plugin-unicorn": "^57",
+    "eslint-plugin-unicorn": "^59",
     "prettier": "^3",
     "typescript": "^5",
     "typescript-eslint": "^8"
