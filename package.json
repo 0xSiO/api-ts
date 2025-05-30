@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@hono/node-server": "^1",
+    "@tsconfig/node24": "^24",
     "hono": "^4",
     "openapi-types": "^12",
     "pg": "^8",
@@ -25,7 +26,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^9",
-    "@tsconfig/node24": "^24",
     "@types/node": "^22",
     "@types/uuid": "^10",
     "@types/verror": "^1",
